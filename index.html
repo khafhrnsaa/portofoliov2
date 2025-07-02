@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Replace with your name -->
-    <title>Portfolio | Kharisma Fahrun Nisa'</title> 
+    <title>Portofolio | Kharisma Fahrun Nisa'</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Poppins -->
@@ -13,14 +12,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Icons: Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
     <style>
-        /* Using Poppins font for the entire page */
+        /* Menggunakan font Poppins untuk seluruh halaman */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #081b29;
             color: #ededed;
         }
-        /* Custom accent color */
+        /* Warna aksen kustom */
         .text-accent {
             color: #00abf0;
         }
@@ -30,20 +32,36 @@
         .hover\:bg-accent-dark:hover {
             background-color: #008abe;
         }
-        /* Shadow effect for buttons */
+        /* Efek shadow untuk tombol */
         .btn-shadow {
             box-shadow: 0 0 10px #00abf0;
         }
-        /* Class for active navigation link */
+        
+        /* Styling untuk link navigasi */
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; /* Jarak antara ikon dan teks */
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Class untuk link navigasi aktif */
         .nav-active {
-            color: #00abf0;
+            background-color: #ededed;
+            color: #081b29;
             font-weight: 600;
         }
-        /* Styling for mobile menu */
+        .nav-link:not(.nav-active):hover {
+            color: #00abf0;
+        }
+
+        /* Styling untuk menu mobile */
         .mobile-nav {
             position: absolute;
             top: 100%;
-            left: -100%; /* Start off-screen */
+            left: -100%; /* Mulai dari luar layar */
             width: 100%;
             padding: 1rem 4%;
             background: #081b29;
@@ -52,7 +70,52 @@
             z-index: 100;
         }
         .mobile-nav.active {
-            left: 0; /* Move into view */
+            left: 0; /* Pindahkan ke dalam layar */
+        }
+        
+        /* Styling untuk Swiper Pagination */
+        .swiper-pagination-bullet {
+            background-color: #ededed !important;
+            opacity: 0.7;
+        }
+        .swiper-pagination-bullet-active {
+            background-color: #00abf0 !important;
+            opacity: 1;
+        }
+
+        /* Styling untuk tombol filter portofolio */
+        .filter-btn.active {
+            background-color: #ededed;
+            color: #081b29;
+        }
+        /* Animasi untuk item portofolio */
+        .portfolio-item {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .portfolio-item.hidden {
+            transform: scale(0.9);
+            opacity: 0;
+            display: none;
+        }
+        
+        /* Animasi Floating untuk gambar utama */
+        @keyframes floatImage {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        .animate-float {
+            animation: floatImage 4s ease-in-out infinite;
+        }
+
+        /* Animasi Floating untuk ikon teknologi */
+        @keyframes floatIcon {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        .floating-icon {
+            animation: floatIcon 3s ease-in-out infinite;
         }
     </style>
 </head>
@@ -60,259 +123,261 @@
 
     <!-- Header / Navbar -->
     <header id="header" class="fixed top-0 left-0 w-full px-8 md:px-16 lg:px-24 py-5 flex justify-between items-center z-50 transition-all duration-300 bg-opacity-90 backdrop-blur-sm bg-[#081b29]">
-        <!-- Replace with your first name -->
-        <a href="#home" class="text-2xl font-bold">Kharisma</a>
+        <a href="#home" class="text-2xl font-bold">Kharisma.</a>
         
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex space-x-8">
-            <a href="#home" class="nav-link text-lg font-medium hover:text-accent transition-colors">Home</a>
-            <a href="#about" class="nav-link text-lg font-medium hover:text-accent transition-colors">About</a>
-            <a href="#skills" class="nav-link text-lg font-medium hover:text-accent transition-colors">Skills</a>
-            <a href="#projects" class="nav-link text-lg font-medium hover:text-accent transition-colors">Projects</a>
-            <a href="#contact" class="nav-link text-lg font-medium hover:text-accent transition-colors">Contact</a>
+        <!-- Navigasi Desktop -->
+        <nav class="hidden md:flex space-x-2">
+            <a href="#home" class="nav-link text-lg font-medium"><i class='bx bxs-home-alt-2'></i>Home</a>
+            <a href="#about" class="nav-link text-lg font-medium"><i class='bx bxs-user'></i>About</a>
+            <a href="#portfolio" class="nav-link text-lg font-medium"><i class='bx bxs-briefcase-alt'></i>Portfolio</a>
+            <a href="#testimonials" class="nav-link text-lg font-medium"><i class='bx bxs-message-square-dots'></i>Testimonials</a>
+            <a href="#contact" class="nav-link text-lg font-medium"><i class='bx bxs-envelope'></i>Contact</a>
         </nav>
 
-        <!-- Mobile menu button -->
+        <!-- Tombol menu untuk mobile -->
         <button id="menu-icon" class="md:hidden text-2xl text-white cursor-pointer z-[101]">
             <i class='bx bx-menu'></i>
         </button>
 
-        <!-- Mobile Navigation -->
-        <nav id="mobile-menu" class="mobile-nav md:hidden flex flex-col space-y-4 text-center">
-            <a href="#home" class="nav-link text-lg font-medium hover:text-accent transition-colors">Home</a>
-            <a href="#about" class="nav-link text-lg font-medium hover:text-accent transition-colors">About</a>
-            <a href="#skills" class="nav-link text-lg font-medium hover:text-accent transition-colors">Skills</a>
-            <a href="#projects" class="nav-link text-lg font-medium hover:text-accent transition-colors">Projects</a>
-            <a href="#contact" class="nav-link text-lg font-medium hover:text-accent transition-colors">Contact</a>
+        <!-- Navigasi Mobile -->
+        <nav id="mobile-menu" class="mobile-nav md:hidden flex flex-col space-y-2 text-left">
+            <a href="#home" class="nav-link text-lg font-medium"><i class='bx bxs-home-alt-2'></i>Home</a>
+            <a href="#about" class="nav-link text-lg font-medium"><i class='bx bxs-user'></i>About</a>
+            <a href="#portfolio" class="nav-link text-lg font-medium"><i class='bx bxs-briefcase-alt'></i>Portfolio</a>
+            <a href="#testimonials" class="nav-link text-lg font-medium"><i class='bx bxs-message-square-dots'></i>Testimonials</a>
+            <a href="#contact" class="nav-link text-lg font-medium"><i class='bx bxs-envelope'></i>Contact</a>
         </nav>
     </header>
 
     <main>
-        <!-- Home Section -->
-        <section id="home" class="min-h-screen flex items-center px-8 md:px-16 lg:px-24 pt-20">
+        <!-- Bagian Home -->
+        <section id="home" class="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-20">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center w-full">
+                <!-- Konten Kiri -->
                 <div class="home-content space-y-4 text-center md:text-left">
-                    <!-- Replace with your full name -->
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">Hi, I'm Kharisma Fahrun Nisa'</h1>
-                    <h3 class="text-2xl md:text-3xl font-bold text-accent">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">Hi, I'm Kharisma Fahrun Nisa' 👋</h1>
+                    <h3 class="text-2xl md:text-3xl font-bold text-accent h-8">
                         <span class="typed-text"></span>
                     </h3>
                     <p class="text-gray-300 max-w-lg mx-auto md:mx-0">
-                        An enthusiastic Information Technology student passionate about software development and cybersecurity.
+                        Mahasiswa Teknologi Informasi semester 4 yang proaktif dan antusias dengan minat kuat pada pengembangan perangkat lunak dan keamanan siber.
                     </p>
-                    <div class="social-icons flex justify-center md:justify-start space-x-4 pt-4">
-                        <!-- Replace '#' with your LinkedIn URL -->
-                        <a href="https://www.linkedin.com/in/khafhrnsaa" class="w-10 h-10 border-2 border-accent rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-all duration-300">
+                    <div class="flex items-center justify-center md:justify-start space-x-4 pt-4">
+                        <span class="font-semibold">Follow me on:</span>
+                        <a href="https://linkedin.com/in/khafhrnsaa" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-[#0b2336] rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-300">
                             <i class='bx bxl-linkedin text-xl'></i>
                         </a>
-                        <!-- Replace '#' with your GitHub URL -->
-                        <a href="https://github.com/khafhrnsaa" class="w-10 h-10 border-2 border-accent rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-all duration-300">
+                        <a href="https://github.com/khafhrnsaa" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-[#0b2336] rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-300">
                            <i class='bx bxl-github text-xl'></i>
                         </a>
                     </div>
-                    <div class="pt-6">
-                        <!-- Link to download the CV -->
-                        <a href="https://its.id/m/CVRUNNIE" download="CV_Runnie.pdf" class="btn inline-block bg-accent text-white font-semibold px-8 py-3 rounded-lg hover:bg-accent-dark transition-colors btn-shadow">Download CV</a>
+                    <div class="pt-6 flex flex-wrap gap-4 justify-center md:justify-start">
+                        <a href="#portfolio" class="btn inline-flex items-center gap-2 bg-transparent border-2 border-accent text-accent font-semibold px-6 py-3 rounded-lg hover:bg-accent hover:text-white transition-colors">
+                            <i class='bx bx-briefcase'></i> Explore My Project
+                        </a>
+                        <a href="https://its.id/m/CVRUNNIE" target="_blank" rel="noopener noreferrer" class="btn inline-flex items-center gap-2 bg-accent text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-dark transition-colors btn-shadow">
+                            <i class='bx bx-download'></i> Download My CV
+                        </a>
                     </div>
                 </div>
-                <div class="home-img flex justify-center items-center">
-                    <!-- The image has been updated -->
-                    <img src="profile.jpg" alt="About Runnie" class="rounded-lg w-3/4 md:w-full max-w-sm">
+                <!-- Konten Kanan (Gambar dengan Animasi) -->
+                <div class="flex justify-center items-center">
+                    <div class="relative w-3/4 md:w-full max-w-sm">
+                        <img src="https://placehold.co/400x400/00abf0/081b29?text=Foto+Profil" alt="Foto Profil Kharisma Fahrun Nisa'" class="rounded-full border-8 border-accent w-full animate-float">
+                        <!-- Ikon Mengambang -->
+                        <div class="floating-icon absolute top-5 -left-5 w-16 h-16 bg-[#0b2336] rounded-full flex items-center justify-center shadow-lg" style="animation-delay: 0.2s;">
+                            <i class='bx bxl-python text-4xl text-yellow-400'></i>
+                        </div>
+                        <div class="floating-icon absolute top-1/4 -right-8 w-16 h-16 bg-[#0b2336] rounded-full flex items-center justify-center shadow-lg" style="animation-delay: 0.5s;">
+                            <i class='bx bxs-data text-4xl text-pink-500'></i>
+                        </div>
+                        <div class="floating-icon absolute bottom-10 -right-2 w-16 h-16 bg-[#0b2336] rounded-full flex items-center justify-center shadow-lg" style="animation-delay: 0.8s;">
+                            <i class='bx bxl-c-plus-plus text-4xl text-cyan-400'></i>
+                        </div>
+                         <div class="floating-icon absolute bottom-0 -left-10 w-16 h-16 bg-[#0b2336] rounded-full flex items-center justify-center shadow-lg" style="animation-delay: 1s;">
+                            <i class='bx bxs-network-chart text-4xl text-teal-400'></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Quick Stats -->
+            <div class="quick-stats-container mt-16 w-full">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div class="stat-item bg-[#0b2336] p-4 rounded-lg">
+                        <h5 class="text-2xl font-bold text-accent">2+</h5>
+                        <p class="text-gray-400">Years Learning</p>
+                    </div>
+                     <div class="stat-item bg-[#0b2336] p-4 rounded-lg">
+                        <h5 class="text-2xl font-bold text-accent">Python</h5>
+                        <p class="text-gray-400">Main Language</p>
+                    </div>
+                     <div class="stat-item bg-[#0b2336] p-4 rounded-lg">
+                        <h5 class="text-2xl font-bold text-accent">4+</h5>
+                        <p class="text-gray-400">Total Projects</p>
+                    </div>
+                     <div class="stat-item bg-[#0b2336] p-4 rounded-lg">
+                        <h5 class="text-2xl font-bold text-accent">Cybersec</h5>
+                        <p class="text-gray-400">Main Interest</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
+        <!-- Bagian Tentang Saya -->
         <section id="about" class="min-h-screen flex items-center bg-[#0b2336] px-8 md:px-16 lg:px-24 py-20">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full">
                 <div class="about-img flex justify-center">
-                    <img src="profile.jpg" alt="About Runnie" class="rounded-lg w-3/4 md:w-full max-w-sm">
+                    <img src="https://placehold.co/400x450/00abf0/081b29?text=Tentang+Saya" alt="Tentang Kharisma Fahrun Nisa'" class="rounded-lg w-3/4 md:w-full max-w-sm">
                 </div>
                 <div class="about-content space-y-4 text-center md:text-left">
-                    <h2 class="text-4xl font-bold">About <span class="text-accent">Me</span></h2>
-                    <h3 class="text-2xl font-semibold">Information Technology Student</h3>
+                    <h2 class="text-4xl font-bold">Tentang <span class="text-accent">Saya</span></h2>
+                    <h3 class="text-2xl font-semibold">Mahasiswa Teknologi Informasi</h3>
                     <p class="text-gray-300 leading-relaxed">
-                        I am a proactive 4th-semester student with a high enthusiasm for web development and cybersecurity. With conceptual understanding and hands-on experience in Operating Systems, dataset analysis using Python, and database management with MySQL, I am ready to contribute. I am seeking an internship opportunity to apply my knowledge and grow in a dynamic technology environment.
+                        Memiliki pemahaman konseptual dan pengalaman langsung dalam Sistem Operasi, analisis dataset menggunakan Python, dan manajemen basis data dengan MySQL. Saat ini sedang mencari kesempatan untuk menerapkan keterampilan ini di lingkungan teknologi yang dinamis.
+                        <br/><br/>
+                        <span class="font-bold">Pendidikan:</span> S1 Teknologi Informasi, Institut Teknologi Sepuluh Nopember. Penerima Beasiswa Santri Berprestasi (PBSB) dari Kemenag dan LPDP.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Skills Section -->
-        <section id="skills" class="min-h-screen flex flex-col justify-center items-center px-8 md:px-16 lg:px-24 py-20">
-            <h2 class="heading text-4xl font-bold mb-12 text-center">My <span class="text-accent">Skills</span></h2>
-            <div class="w-full max-w-4xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 text-center">
-                <!-- Skill Card: Python -->
-                <div class="skill-card bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2">
-                    <i class='bx bxl-python text-6xl text-accent'></i>
-                    <h3 class="font-semibold text-lg">Python</h3>
+        <!-- Bagian Portofolio (Gabungan) -->
+        <section id="portfolio" class="min-h-screen flex flex-col justify-center items-center px-8 md:px-16 lg:px-24 py-20">
+            <h2 class="heading text-4xl font-bold mb-4 text-center">My <span class="text-accent">Portfolio</span></h2>
+            <p class="text-gray-400 mb-12 text-center">Jelajahi karya, sertifikasi, dan teknologi yang saya gunakan — semua di satu tempat.</p>
+
+            <!-- Tombol Filter -->
+            <div id="portfolio-filters" class="flex justify-center items-center gap-4 mb-12">
+                <button class="filter-btn bg-[#0b2336] px-4 py-2 rounded-lg font-semibold transition-colors active" data-filter="projects">Projects</button>
+                <button class="filter-btn bg-[#0b2336] px-4 py-2 rounded-lg font-semibold transition-colors" data-filter="tech">Tech Stack</button>
+                <button class="filter-btn bg-[#0b2336] px-4 py-2 rounded-lg font-semibold transition-colors" data-filter="certificates">Trainings</button>
+            </div>
+
+            <!-- Kontainer Item Portofolio -->
+            <div id="portfolio-grid" class="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                
+                <!-- Item Tech Stack -->
+                <div class="portfolio-item bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2" data-category="tech">
+                    <i class='bx bxl-python text-6xl text-accent'></i><h3 class="font-semibold text-lg">Python</h3>
                 </div>
-                 <!-- Skill Card: SQL/MySQL -->
-                <div class="skill-card bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2">
-                    <i class='bx bxs-data text-6xl text-accent'></i>
-                    <h3 class="font-semibold text-lg">MySQL</h3>
+                <div class="portfolio-item bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2" data-category="tech">
+                    <i class='bx bxl-c-plus-plus text-6xl text-accent'></i><h3 class="font-semibold text-lg">C++</h3>
                 </div>
-                 <!-- Skill Card: Linux -->
-                <div class="skill-card bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2">
-                    <i class='bx bxl-linux text-6xl text-accent'></i>
-                    <h3 class="font-semibold text-lg">Linux</h3>
+                <div class="portfolio-item bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2" data-category="tech">
+                    <i class='bx bxs-data text-6xl text-accent'></i><h3 class="font-semibold text-lg">MySQL</h3>
                 </div>
-                 <!-- Skill Card: Cybersecurity -->
-                <div class="skill-card bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2">
-                    <i class='bx bx-shield-quarter text-6xl text-accent'></i>
-                    <h3 class="font-semibold text-lg">Cybersecurity</h3>
+                <div class="portfolio-item bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2" data-category="tech">
+                    <i class='bx bxl-git text-6xl text-accent'></i><h3 class="font-semibold text-lg">Git & GitHub</h3>
                 </div>
-                 <!-- Skill Card: Nmap -->
-                <div class="skill-card bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2">
-                    <i class='bx bx-scan text-6xl text-accent'></i>
-                    <h3 class="font-semibold text-lg">Nmap</h3>
+                <div class="portfolio-item bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2" data-category="tech">
+                    <i class='bx bxs-network-chart text-6xl text-accent'></i><h3 class="font-semibold text-lg">Nmap</h3>
                 </div>
-                <!-- Skill Card: Wireshark -->
-                <div class="skill-card bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2">
-                    <i class='bx bx-network-chart text-6xl text-accent'></i>
-                    <h3 class="font-semibold text-lg">Wireshark</h3>
+                <div class="portfolio-item bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2" data-category="tech">
+                    <i class='bx bxs-file-find text-6xl text-accent'></i><h3 class="font-semibold text-lg">Wireshark</h3>
                 </div>
-                 <!-- Skill Card: Git -->
-                <div class="skill-card bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2">
-                    <i class='bx bxl-git text-6xl text-accent'></i>
-                    <h3 class="font-semibold text-lg">Git & GitHub</h3>
+                <div class="portfolio-item bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2" data-category="tech">
+                    <i class='bx bxl-visual-studio text-6xl text-accent'></i><h3 class="font-semibold text-lg">VS Code</h3>
                 </div>
-                 <!-- Skill Card: OS -->
-                <div class="skill-card bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2">
-                    <i class='bx bx-cog text-6xl text-accent'></i>
-                    <h3 class="font-semibold text-lg">Operating Systems</h3>
+                 <div class="portfolio-item bg-[#0b2336] p-6 rounded-lg flex flex-col items-center justify-center space-y-3 transition-transform hover:-translate-y-2" data-category="tech">
+                    <i class='bx bxs-bar-chart-alt-2 text-6xl text-accent'></i><h3 class="font-semibold text-lg">Pandas & NumPy</h3>
+                </div>
+
+                <!-- Item Projects -->
+                <div class="portfolio-item bg-[#081b29] rounded-lg overflow-hidden group" data-category="projects">
+                    <div class="p-6"><h3 class="text-xl font-bold mb-2">Analisis Kerentanan Jaringan</h3><p class="text-gray-400 text-sm">Menggunakan Nmap dan Wireshark untuk mengidentifikasi 5+ kerentanan jaringan dan menganalisis lalu lintas untuk mendeteksi ancaman.</p></div>
+                </div>
+                <div class="portfolio-item bg-[#081b29] rounded-lg overflow-hidden group" data-category="projects">
+                    <div class="p-6"><h3 class="text-xl font-bold mb-2">Database Toko Buku Online</h3><p class="text-gray-400 text-sm">Merancang dan mengimplementasikan database relasional (10+ tabel) di MySQL dengan normalisasi 3NF untuk integritas data.</p></div>
+                </div>
+                <div class="portfolio-item bg-[#081b29] rounded-lg overflow-hidden group" data-category="projects">
+                    <div class="p-6"><h3 class="text-xl font-bold mb-2">Analisis Data Penjualan</h3><p class="text-gray-400 text-sm">Menganalisis 10.000+ baris data penjualan dengan Python (Pandas, NumPy) untuk meningkatkan kualitas data sebesar 25%.</p></div>
+                </div>
+                 <div class="portfolio-item bg-[#081b29] rounded-lg overflow-hidden group" data-category="projects">
+                    <div class="p-6"><h3 class="text-xl font-bold mb-2">Simulasi Penjadwalan Proses</h3><p class="text-gray-400 text-sm">Mengimplementasikan algoritma FCFS dan SJF di Python untuk simulasi manajemen proses CPU, mengurangi waktu tunggu hingga 40%.</p></div>
+                </div>
+
+                <!-- Item Certificates/Trainings -->
+                <div class="portfolio-item bg-[#0b2336] rounded-lg overflow-hidden group p-6 text-center flex flex-col items-center justify-center transition-transform hover:-translate-y-2" data-category="certificates">
+                    <i class='bx bxs-certification text-6xl text-accent mb-4'></i><h3 class="text-xl font-bold mb-2">Halal Product Development Training</h3><p class="text-gray-400 text-sm">Tahun: 2025</p>
+                </div>
+                <div class="portfolio-item bg-[#0b2336] rounded-lg overflow-hidden group p-6 text-center flex flex-col items-center justify-center transition-transform hover:-translate-y-2" data-category="certificates">
+                    <i class='bx bxs-certification text-6xl text-accent mb-4'></i><h3 class="text-xl font-bold mb-2">LKMM TD V HMIT</h3><p class="text-gray-400 text-sm">Tahun: 2024</p>
                 </div>
             </div>
         </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="min-h-screen flex flex-col justify-center items-center bg-[#0b2336] px-8 md:px-16 lg:px-24 py-20">
-            <h2 class="heading text-4xl font-bold mb-12 text-center">Academic <span class="text-accent">Projects</span></h2>
-            <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project Card 1 -->
-                <div class="project-card bg-[#081b29] rounded-lg overflow-hidden group">
-                    <div class="relative">
-                        <img src="https://placehold.co/600x400/081b29/ededed?text=Cyber+Project" alt="Cybersecurity Project" class="w-full h-48 object-cover transition-transform group-hover:scale-105">
-                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <a href="#" class="text-white text-lg border-2 border-accent bg-accent px-4 py-2 rounded-lg">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Network Vulnerability Analysis</h3>
-                        <p class="text-gray-400 text-sm">A project on network scanning using Nmap and traffic analysis with Wireshark to find potential vulnerabilities.</p>
-                    </div>
+        <!-- Bagian Testimoni -->
+        <section id="testimonials" class="min-h-screen flex flex-col justify-center items-center bg-[#0b2336] px-8 md:px-16 lg:px-24 py-20">
+            <h2 class="heading text-4xl font-bold mb-12 text-center">Testimoni</h2>
+            <div class="swiper testimonial-slider w-full max-w-4xl">
+                <div class="swiper-wrapper">
+                    <!-- Testimonial Slide 1 -->
+                    <div class="swiper-slide bg-[#081b29] p-8 rounded-lg text-center"><img src="https://placehold.co/100x100/ededed/081b29?text=Dosen" alt="Dosen" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-accent"><p class="text-gray-300 italic mb-4">"Kharisma menunjukkan inisiatif dan kemampuan analisis yang kuat dalam proyek keamanan siber. Laporannya detail dan memberikan rekomendasi yang tajam."</p><h4 class="font-bold text-lg text-accent">Dr. Budi Rahardjo</h4><p class="text-sm text-gray-500">Dosen Keamanan Siber</p></div>
+                    <!-- Testimonial Slide 2 -->
+                    <div class="swiper-slide bg-[#081b29] p-8 rounded-lg text-center"><img src="https://placehold.co/100x100/ededed/081b29?text=Rekan" alt="Rekan Tim" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-accent"><p class="text-gray-300 italic mb-4">"Bekerja dengan Kharisma dalam proyek database sangat efisien. Desain skemanya terstruktur dengan baik dan sangat membantu dalam pengembangan."</p><h4 class="font-bold text-lg text-accent">Ahmad Zulkifli</h4><p class="text-sm text-gray-500">Rekan Proyek Database</p></div>
                 </div>
-                <!-- Project Card 2 -->
-                <div class="project-card bg-[#081b29] rounded-lg overflow-hidden group">
-                    <div class="relative">
-                        <img src="https://placehold.co/600x400/081b29/ededed?text=Database+Project" alt="Database Project" class="w-full h-48 object-cover transition-transform group-hover:scale-105">
-                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <a href="#" class="text-white text-lg border-2 border-accent bg-accent px-4 py-2 rounded-lg">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Online Bookstore Database</h3>
-                        <p class="text-gray-400 text-sm">Designed and implemented a relational database using MySQL, complete with complex SQL queries.</p>
-                    </div>
-                </div>
-                <!-- Project Card 3 -->
-                <div class="project-card bg-[#081b29] rounded-lg overflow-hidden group">
-                    <div class="relative">
-                        <img src="https://placehold.co/600x400/081b29/ededed?text=Python+Project" alt="Python Project" class="w-full h-48 object-cover transition-transform group-hover:scale-105">
-                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <a href="#" class="text-white text-lg border-2 border-accent bg-accent px-4 py-2 rounded-lg">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Dataset Analysis with Python</h3>
-                        <p class="text-gray-400 text-sm">Using Pandas and Matplotlib to clean, analyze, and visualize sales data.</p>
-                    </div>
-                </div>
+                <div class="swiper-pagination mt-8 relative !bottom-0"></div>
             </div>
         </section>
 
-        <!-- Contact Section -->
+        <!-- Bagian Kontak -->
         <section id="contact" class="min-h-screen flex flex-col justify-center items-center px-8 md:px-16 lg:px-24 py-20">
-            <h2 class="heading text-4xl font-bold mb-12 text-center">Contact <span class="text-accent">Me</span></h2>
+            <h2 class="heading text-4xl font-bold mb-12 text-center">Hubungi <span class="text-accent">Saya</span></h2>
             <form action="#" class="w-full max-w-2xl space-y-6">
-                <div class="form-group grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="text" placeholder="Full Name" class="w-full p-3 bg-[#0b2336] rounded-lg border border-transparent focus:border-accent focus:outline-none">
-                    <input type="email" placeholder="Email Address" class="w-full p-3 bg-[#0b2336] rounded-lg border border-transparent focus:border-accent focus:outline-none">
-                </div>
-                <div class="form-group">
-                    <input type="text" placeholder="Subject" class="w-full p-3 bg-[#0b2336] rounded-lg border border-transparent focus:border-accent focus:outline-none">
-                </div>
-                <div class="form-group">
-                    <textarea placeholder="Your Message" rows="6" class="w-full p-3 bg-[#0b2336] rounded-lg border border-transparent focus:border-accent focus:outline-none"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn bg-accent text-white font-semibold px-8 py-3 rounded-lg hover:bg-accent-dark transition-colors btn-shadow">Send Message</button>
-                </div>
+                <div class="form-group grid grid-cols-1 md:grid-cols-2 gap-6"><input type="text" placeholder="Nama Lengkap" class="w-full p-3 bg-[#0b2336] rounded-lg border border-transparent focus:border-accent focus:outline-none"><input type="email" placeholder="Alamat Email" class="w-full p-3 bg-[#0b2336] rounded-lg border border-transparent focus:border-accent focus:outline-none"></div>
+                <div class="form-group"><input type="text" placeholder="Subjek" class="w-full p-3 bg-[#0b2336] rounded-lg border border-transparent focus:border-accent focus:outline-none"></div>
+                <div class="form-group"><textarea placeholder="Pesan Anda" rows="6" class="w-full p-3 bg-[#0b2336] rounded-lg border border-transparent focus:border-accent focus:outline-none"></textarea></div>
+                <div class="text-center"><button type="submit" class="btn bg-accent text-white font-semibold px-8 py-3 rounded-lg hover:bg-accent-dark transition-colors btn-shadow">Kirim Pesan</button></div>
             </form>
         </section>
     </main>
 
     <!-- Footer -->
     <footer class="bg-[#0b2336] text-center p-6">
-        <!-- Replace with your name -->
-        <p>Created by Kharisma Fahrun Nisa' | &copy; 2024 All Rights Reserved.</p>
+        <p>Dibuat oleh Kharisma Fahrun Nisa' | &copy; 2025 Hak Cipta Dilindungi.</p>
         <div class="flex justify-center space-x-4 mt-4">
-             <!-- Replace '#' with your LinkedIn URL -->
-             <a href="https://www.linkedin.com/in/khafhrnsaa" class="w-8 h-8 border-2 border-accent rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-all duration-300">
-                <i class='bx bxl-linkedin text-lg'></i>
-            </a>
-            <!-- Replace '#' with your GitHub URL -->
-            <a href="https://github.com/khafhrnsaa" class="w-8 h-8 border-2 border-accent rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-all duration-300">
-               <i class='bx bxl-github text-lg'></i>
-            </a>
+            <a href="https://linkedin.com/in/khafhrnsaa" target="_blank" rel="noopener noreferrer" class="w-8 h-8 border-2 border-accent rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-all duration-300"><i class='bx bxl-linkedin text-lg'></i></a>
+            <a href="https://github.com/khafhrnsaa" target="_blank" rel="noopener noreferrer" class="w-8 h-8 border-2 border-accent rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-all duration-300"><i class='bx bxl-github text-lg'></i></a>
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <a href="#home" id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-2xl opacity-0 invisible transition-all duration-500 hover:bg-accent-dark btn-shadow">
-        <i class='bx bx-up-arrow-alt'></i>
-    </a>
+    <!-- Tombol Kembali ke Atas -->
+    <a href="#home" id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-2xl opacity-0 invisible transition-all duration-500 hover:bg-accent-dark btn-shadow"><i class='bx bx-up-arrow-alt'></i></a>
 
     <!-- ScrollReveal JS -->
     <script src="https://unpkg.com/scrollreveal"></script>
     <!-- Typed.js -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- Swiper's JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
-        // --- JavaScript for Interactivity ---
+        // --- JavaScript untuk Interaktivitas ---
 
-        // 1. Mobile Menu Functionality (Hamburger Menu)
+        // 1. Fungsionalitas Menu Mobile (Hamburger Menu)
         const menuIcon = document.getElementById('menu-icon');
         const mobileMenu = document.getElementById('mobile-menu');
+        const navLinksMobile = document.querySelectorAll('#mobile-menu a');
         menuIcon.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
-            // Change menu icon to 'x' when active
             menuIcon.innerHTML = mobileMenu.classList.contains('active') ? "<i class='bx bx-x'></i>" : "<i class='bx bx-menu'></i>";
         });
-
-        // Close mobile menu when a link is clicked
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
+        navLinksMobile.forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('active');
                 menuIcon.innerHTML = "<i class='bx bx-menu'></i>";
             });
         });
 
-
-        // 2. Change header background on scroll
+        // 2. Mengubah background header saat scroll
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('shadow-lg');
-            } else {
-                header.classList.remove('shadow-lg');
-            }
+            header.classList.toggle('shadow-lg', window.scrollY > 50);
         });
 
-        // 3. Active navigation link based on scroll position
+        // 3. Navigasi aktif berdasarkan posisi scroll
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('header nav a');
-
         window.addEventListener('scroll', () => {
             let current = '';
             sections.forEach(section => {
@@ -321,7 +386,6 @@
                     current = section.getAttribute('id');
                 }
             });
-
             navLinks.forEach(link => {
                 link.classList.remove('nav-active');
                 if (link.getAttribute('href').includes(current)) {
@@ -330,43 +394,76 @@
             });
         });
 
-        // 4. Back to Top Button
+        // 4. Tombol Kembali ke Atas (Back to Top)
         const backToTopButton = document.getElementById('back-to-top');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.remove('opacity-0', 'invisible');
-                backToTopButton.classList.add('opacity-100', 'visible');
-            } else {
-                backToTopButton.classList.remove('opacity-100', 'visible');
-                backToTopButton.classList.add('opacity-0', 'invisible');
-            }
+            backToTopButton.classList.toggle('opacity-100', window.scrollY > 300);
+            backToTopButton.classList.toggle('visible', window.scrollY > 300);
+            backToTopButton.classList.toggle('opacity-0', window.scrollY <= 300);
+            backToTopButton.classList.toggle('invisible', window.scrollY <= 300);
         });
 
-        // 5. ScrollReveal Animation
+        // 5. Animasi ScrollReveal
         const sr = ScrollReveal({
             distance: '60px',
             duration: 2500,
             delay: 400,
             reset: true
         });
-
-        sr.reveal('.home-content', { origin: 'top' });
-        sr.reveal('.home-img', { origin: 'bottom' });
+        sr.reveal('.home-content, .heading', { origin: 'top' });
+        sr.reveal('.home-img, .form-group, .btn', { origin: 'bottom' });
         sr.reveal('.about-img', { origin: 'left' });
         sr.reveal('.about-content', { origin: 'right' });
-        sr.reveal('.heading', { origin: 'top' });
-        sr.reveal('.skill-card', { interval: 200, origin: 'bottom' });
-        sr.reveal('.project-card', { interval: 200, origin: 'bottom' });
-        sr.reveal('.form-group', { interval: 150, origin: 'bottom' });
-        sr.reveal('.btn', { origin: 'bottom', delay: 600 });
+        sr.reveal('.portfolio-item, .stat-item', { interval: 100, origin: 'bottom' });
+        sr.reveal('.testimonial-slider', { origin: 'bottom' });
         
-        // 6. Typed.js Effect
+        // 6. Efek Mengetik (Typed.js)
         const typed = new Typed('.typed-text', {
-            strings: ['IT Student', 'Cybersecurity Enthusiast', 'Aspiring Developer'],
+            strings: ['Software Development', 'Cybersecurity Enthusiast', 'Data Analyst'],
             typeSpeed: 70,
             backSpeed: 70,
             backDelay: 1000,
             loop: true
+        });
+
+        // 7. Inisialisasi Swiper untuk Testimoni
+        var swiper = new Swiper(".testimonial-slider", {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            grabCursor: true,
+            pagination: { el: ".swiper-pagination", clickable: true },
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            breakpoints: { 768: { slidesPerView: 2, spaceBetween: 40 } }
+        });
+        
+        // 8. Logika Filter Portofolio
+        const filterContainer = document.querySelector('#portfolio-filters');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        const filterPortfolio = (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                // Hapus kelas 'active' dari semua tombol
+                filterContainer.querySelector('.active').classList.remove('active');
+                // Tambah kelas 'active' ke tombol yang diklik
+                e.target.classList.add('active');
+
+                const filterValue = e.target.getAttribute('data-filter');
+                portfolioItems.forEach(item => {
+                    if (item.dataset.category === filterValue || filterValue === 'all') {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            }
+        };
+        
+        filterContainer.addEventListener('click', filterPortfolio);
+        
+        // Terapkan filter awal saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.filter-btn[data-filter="projects"]').click();
         });
 
     </script>
